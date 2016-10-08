@@ -24,12 +24,10 @@ angular.module('gistAppApp')
     function init () {
        // to list all public gist user details
       githubService.getAllUsers().then(function(response){
-        debugger;
         var users  = response.data;
         angular.forEach(users, function (user) {
           if(user.owner){
             $scope.userData.push(user.owner);
-            console.log('users'+JSON.stringify($scope.userData));
           }
         });
       });
@@ -53,8 +51,8 @@ angular.module('gistAppApp')
             githubService.getPublicGists(user.login).then(function(response){
               if(response.data){
                 $scope.publicGists = response.data;
-                getForksList();
                 getFileTypes();
+                getForksList($scope.publicGists);
                 $scope.isContentDisplayed = true;
                 $scope.loadingProfile = true;
               }
@@ -67,7 +65,6 @@ angular.module('gistAppApp')
         $scope.loadingProfile = true;
         displayErrorModal();
       }
-
     };
 
     /**
@@ -80,7 +77,7 @@ angular.module('gistAppApp')
      angular.forEach($scope.publicGists,function(gist){
        var files = gist.files;
        Object.keys(files).forEach(function(k) {
-         $scope.filetype = (files[k].type);
+         gist.filetype = (files[k].type);
        });
      });
    }
@@ -103,6 +100,20 @@ angular.module('gistAppApp')
       );
     }
 
-
+    /**
+     * @ngdoc method
+     * @name getForksList
+     * @methodOf SearchCtrl
+     * @description  to get forks list for each Public gist.
+     */
+    function getForksList(publicGists){
+      angular.forEach(publicGists,function(gist){
+        githubService.getGistForks(gist.id).then(function (response) {
+          if(response){
+            gist.forksList = response.data;
+          }
+        });
+      });
+    }
 
   });

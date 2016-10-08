@@ -11,18 +11,19 @@
 body {
   padding: 0;
 }
-
+$color-from: #5cb85c;
+$color-to: #009926;
 @-webkit-keyframes fontchanger {
-  from { background-color: #5cb85c}
-  to{ background-color: #fc8c84}
+  from { background-color: $color-from}
+  to{ background-color:$color-to }
 }
 
 @keyframes fontchanger {
-  from { background-color: #5cb85c}
-  to{ background-color: #fc8c84}
+  from { background-color: $color-from}
+  to{ background-color: $color-to}
 }
 #main{
-  animation: fontchanger 5s infinite;
+  animation: fontchanger 3s infinite;
 }
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -83,7 +84,10 @@ body {
     margin-top: 28px;
   }
 }
-
+.card-style{
+  max-width: 70%;
+  margin-left: 15%;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
