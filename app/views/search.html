@@ -1,0 +1,77 @@
+<div layout="row" flex layout-align="start start">
+  <md-input-container>
+    <span class=""><span class="glyphicon glyphicon-user"></span></span>
+  </md-input-container>
+  <form name="autocompleteForm">
+    <md-autocomplete class="highlight"
+      required="true"
+      flex-offset="5"
+      flex="20"
+      md-input-name="searchUser"
+      md-no-cache="true"
+      md-search-text="searchText"
+      md-selected-item="userName"
+      md-items="user in userData | filter : searchText"
+      md-item-text="user.login"
+      md-floating-label="Select an User"
+      md-min-length="0">
+      <md-item-template>
+        <span md-highlight-text="searchText" md-highlight-flags="^ig">{{user.login}}</span>
+      </md-item-template>
+      <md-not-found>
+        No matches found.
+      </md-not-found>
+      <div ng-messages="autocompleteForm.searchUser.$error">
+        <div ng-message="required">This field is required</div>
+      </div>
+    </md-autocomplete>
+  </form>
+
+  <md-button
+    type="button"
+    ng-click="getUserGist(userName)"
+    class="md-primary md-raised"
+    ng-disabled="autocompleteForm.$invalid || autocompleteForm.$submitted && user.login"
+    name="SubmitForm">
+    GET GISTS
+  </md-button>
+</div>
+
+
+<div layout="row" layout-align="space-around center"  ng-if="!loadingProfile">
+  <md-progress-circular md-mode="indeterminate" class="md-accent" md-diameter="50" name="progress"></md-progress-circular>
+</div>
+
+<md-card layout-align="start" style="padding: 10px;background-color:rgb(185, 236, 232)" ng-if="isContentDisplayed">
+
+ <!-- <md-progress-circular md-mode="indeterminate" md-diameter="100"></md-progress-circular>-->
+  <h1 ng-if="gistDetails.name">{{gistDetails.name}}</h1>
+  <h1 ng-if="!gistDetails.name">{{gistDetails.login}}</h1>
+<div layout="row">
+  <img ng-src="{{gistDetails.avatar_url}}" style="height: 120px;">
+  <div flex="5"></div>
+  <div layout="column">
+  <!--  <md-divider></md-divider>-->
+    <div ng-if="gistDetails.login"><span style="color: dimgray;"class="glyphicon glyphicon-user"></span>
+      <span>{{gistDetails.login}}</span></div>
+    <div ng-if="gistDetails.email"><span class="glyphicon glyphicon-envelope"></span> {{gistDetails.email}} </div>
+    <div ng-if="gistDetails.location">
+      <span style="color: dimgray;" class="glyphicon glyphicon-map-marker"></span>
+      <span>{{gistDetails.location}}</span>
+    </div>
+  </div>
+</div>
+
+  <div>
+    <h2>Public Gists :</h2>
+    <div ng-repeat="publicGist in publicGists">
+      <div><span class="font-weight">Login Id : </span> {{publicGist.owner.login}}</div>
+      <div><span class="font-weight">Created At :</span> {{publicGist.created_at}}</div>
+      <div><span class="font-weight">updated At : </span>{{publicGist.updated_at}}</div>
+      <div><span class="font-weight">Description : </span>{{publicGist.description}}</div>
+      <div><span class="font-weight">FileType : </span><span ng-repeat="type in filetype" class="badge">{{type}}</span></div>
+    </div>
+  </div>
+
+</md-card>
+
