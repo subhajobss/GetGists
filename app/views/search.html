@@ -70,13 +70,15 @@
           <div><span class="font-weight">Description : </span>{{publicGist.description}}</div>
           <div><span class="font-weight">Created At :</span> {{publicGist.created_at}}</div>
           <div><span class="font-weight">updated At : </span>{{publicGist.updated_at}}</div>
-          <h3 ng-if="publicGist.forksList">Latest Forks :</h3>
+          <div><span class="font-weight">FileType : </span><span class="badge">{{publicGist.filetype}}</span></div>
+          <h3 ng-if="publicGist.forksList.length>0">Latest Forks :</h3>
           <div layout="row">
             <div ng-repeat="fork in publicGist.forksList | limitTo:3">
               <div  class="font-weight">{{fork.user.login}}</div>
               <img ng-src="{{fork.user.avatar_url}}" style="height: 120px;">
             </div>
           </div>
+          <md-divider ng-if="publicGists.length>1"></md-divider>
         </div>
       </div>
 </md-card>
